@@ -35,7 +35,10 @@ export function useFirebaseState<T>(path: string, initialValue: T) {
     setState(valueToStore);
 
     // Sync to Firebase
-    set(ref(database, path), valueToStore).catch((err) => {
+    console.log(`[Firebase] Setting path: ${path} to:`, valueToStore);
+    set(ref(database, path), valueToStore)
+      .then(() => console.log(`[Firebase] Write success for ${path}`))
+      .catch((err) => {
         console.error("Firebase set error:", err);
     });
   };

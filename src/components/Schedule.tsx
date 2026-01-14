@@ -87,9 +87,15 @@ export const Schedule = ({
     const key = `${dayIndex}-${itemIndex}`;
     const newHeight = `${target.offsetHeight}px`;
     
+    console.log(`[Resize] ID: ${key}, OffsetHeight: ${target.offsetHeight}px, NewString: ${newHeight}`);
+
     setNoteHeights((prev) => {
       // Avoid spamming updates if height is same (pixel perfect)
-      if (prev[key] === newHeight) return prev;
+      if (prev[key] === newHeight) {
+          console.log(`[Resize] Skipping update, height unchanged: ${newHeight}`);
+          return prev;
+      }
+      console.log(`[Resize] Updating state for ${key}:`, newHeight);
       return { ...prev, [key]: newHeight };
     });
   };
