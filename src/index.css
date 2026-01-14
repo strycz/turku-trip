@@ -1,0 +1,487 @@
+:root {
+  --bg-gradient: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #111827 100%);
+  --glass-bg: rgba(30, 41, 59, 0.7);
+  --glass-border: rgba(255, 255, 255, 0.1);
+  --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+  --text: #f8fafc;
+  --muted: #94a3b8;
+  --accent: #38bdf8;
+  --accent-gradient: linear-gradient(135deg, #38bdf8, #818cf8);
+  --success: #10b981;
+  --danger: #ef4444;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  background: #0f172a;
+  background-image: 
+    radial-gradient(at 0% 0%, rgba(56, 189, 248, 0.15) 0px, transparent 50%),
+    radial-gradient(at 100% 0%, rgba(129, 140, 248, 0.15) 0px, transparent 50%),
+    radial-gradient(at 100% 100%, rgba(56, 189, 248, 0.15) 0px, transparent 50%),
+    radial-gradient(at 0% 100%, rgba(129, 140, 248, 0.15) 0px, transparent 50%);
+  background-attachment: fixed;
+  color: var(--text);
+  line-height: 1.6;
+  min-height: 100vh;
+}
+
+.container {
+  max-width: 800px;
+  margin: auto;
+  padding: 1.5rem;
+  width: 100%;
+}
+
+/* Glassmorphism Utilities */
+.glass-panel {
+  background: var(--glass-bg);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--glass-shadow);
+  border-radius: 16px;
+}
+
+h1, h2, h3 {
+  color: var(--text);
+  margin: 0 0 1rem 0;
+  font-weight: 700;
+  letter-spacing: -0.025em;
+}
+
+h1 {
+  font-size: 2rem;
+  background: var(--accent-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  display: inline-block;
+}
+
+h2 {
+  font-size: 1.5rem;
+  margin-bottom: 1.5rem;
+  border-bottom: 2px solid var(--glass-border);
+  padding-bottom: 0.5rem;
+}
+
+/* App Header */
+.app-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+}
+
+.controls {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.btn-control {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--glass-border);
+  color: var(--text);
+  padding: 0.5rem 1rem;
+  border-radius: 99px; /* Pill shape */
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  backdrop-filter: blur(4px);
+}
+
+/* Button Interaction States */
+.btn-control:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.3);
+  transform: translateY(-1px);
+}
+
+.btn-control.active {
+  background: var(--accent-gradient);
+  border-color: transparent;
+  color: white;
+  box-shadow: 0 4px 12px rgba(56, 189, 248, 0.3);
+}
+
+.btn-control:active {
+  transform: translateY(0);
+}
+
+/* Tab Pane Styling */
+.tab-pane {
+  animation: fadeIn 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Timeline / Schedule */
+.day {
+  margin-bottom: 2rem;
+}
+.day h3 {
+  color: var(--muted);
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 1rem;
+}
+
+.day ul {
+  list-style: none;
+  padding: 0;
+  position: relative;
+}
+
+/* Timeline Line */
+.day ul::before {
+  content: '';
+  position: absolute;
+  top: 0.5rem;
+  bottom: 0.5rem;
+  left: 15px; /* Better alignment with indicator center */
+  width: 2px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 2px;
+}
+
+.schedule-item {
+  display: flex;
+  gap: 1.25rem;
+  padding: 1rem;
+  padding-left: 2.5rem; /* Space for timeline and indicator */
+  margin-bottom: 0.75rem;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid transparent;
+  transition: all 0.2s;
+  position: relative;
+}
+
+.schedule-item:hover {
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.schedule-item.current {
+  background: rgba(56, 189, 248, 0.1);
+  border-color: rgba(56, 189, 248, 0.3);
+  box-shadow: 0 0 20px rgba(56, 189, 248, 0.1);
+}
+
+.schedule-item.past {
+  opacity: 0.5;
+  filter: grayscale(0.8);
+}
+
+/* Indicators */
+/* Indicators */
+.status-indicator {
+  position: absolute;
+  left: 9px; /* Center on the 2px line at left:15px (15 - 6 + 1px adjustment) */
+  top: 1.5rem; /* Align vertically with padding top */
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: #1e293b; 
+  border: 2px solid var(--muted);
+  box-shadow: 0 0 0 4px var(--bg); /* Gap effect */
+  z-index: 1;
+}
+
+.schedule-item.current .status-indicator {
+  background: var(--accent);
+  border-color: var(--accent);
+  box-shadow: 0 0 0 4px rgba(56, 189, 248, 0.2);
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% { box-shadow: 0 0 0 0 rgba(56, 189, 248, 0.4); }
+  70% { box-shadow: 0 0 0 6px rgba(56, 189, 248, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(56, 189, 248, 0); }
+}
+
+.schedule-item.past .status-indicator {
+  border-color: var(--glass-border);
+  background: var(--glass-border);
+}
+
+.schedule-content {
+  flex: 1;
+}
+
+.item-header strong {
+  color: var(--text);
+  font-weight: 600;
+}
+
+.muted {
+  color: var(--muted);
+  font-size: 0.9rem;
+  margin-top: 0.25rem;
+}
+
+.schedule-note {
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid var(--glass-border);
+  border-radius: 6px;
+  color: var(--text);
+  padding: 0.5rem;
+  margin-top: 0.5rem;
+  width: 100%;
+  resize: vertical;
+  min-height: 40px;
+}
+.schedule-note:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+
+/* Map Link Button */
+/* Map Link Button */
+/* Map Link Button */
+.map-link {
+  position: absolute;
+  top: 0.75rem;
+  right: 0.75rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+  font-size: 0.9rem;
+  text-decoration: none;
+  transition: transform 0.2s, background 0.2s;
+  z-index: 2;
+}
+.map-link:hover {
+  background: var(--accent);
+  transform: scale(1.1) rotate(15deg);
+  box-shadow: 0 0 10px var(--accent);
+}
+
+.item-header {
+  padding-right: 2.5rem; /* Prevent text overlapping the absolute map button */
+}
+
+/* Roles & Budget */
+.role-item {
+  background: transparent;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid var(--glass-border);
+  margin-bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.role-item:last-child {
+  border-bottom: none;
+}
+
+.budget-item {
+  background: rgba(255, 255, 255, 0.03);
+  padding: 1rem;
+  border-radius: 12px;
+  margin-bottom: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.role-input, .budget-input {
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid var(--glass-border);
+  color: var(--text);
+  padding: 0.75rem;
+  border-radius: 8px;
+  width: 100%;
+}
+.role-input:focus, .budget-input:focus {
+  outline: none;
+  border-color: var(--accent);
+  background: rgba(0, 0, 0, 0.4);
+}
+
+.budget-summary {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+.summary-item {
+  background: linear-gradient(135deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.01) 100%);
+  padding: 1.5rem;
+  border-radius: 16px;
+  text-align: center;
+  border: 1px solid var(--glass-border);
+}
+.summary-item strong {
+  display: block;
+  font-size: 1.75rem;
+  background: var(--accent-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-top: 0.5rem;
+}
+
+/* Budget Form (Mobile Grid) */
+/* Budget Form (Grid Layout Global) */
+.budget-form {
+  display: grid !important;
+  grid-template-columns: 1fr auto; 
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+  background: rgba(255,255,255,0.03);
+  padding: 1rem;
+  border-radius: 12px;
+}
+.budget-input.grow {
+  grid-row: 1; grid-column: 1;
+  width: 100%;
+}
+.budget-input.cost {
+  grid-row: 1; grid-column: 2;
+  width: 90px !important;
+}
+.budget-input.who {
+  grid-row: 2; grid-column: 1;
+  width: 100%;
+}  
+.btn-add {
+  grid-row: 2; grid-column: 2;
+  width: 90px;
+  height: 100%;
+  border-radius: 8px;
+  background: var(--accent-gradient);
+  border: none;
+  color: white;
+  font-size: 1.5rem;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(56, 189, 248, 0.3);
+}
+
+@media (max-width: 640px) {
+  /* Edge-to-edge Roles on Mobile */
+  .roles-list {
+    margin: 0 -1rem;
+  }
+  .roles-list .role-item {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+}
+
+.btn-del {
+  color: var(--muted);
+  font-size: 1.5rem;
+  background: none; border: none; cursor: pointer;
+  padding: 0 0.5rem;
+}
+.btn-del:hover { color: var(--danger); }
+
+/* Checklist */
+.checklist {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.checklist label {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.75rem;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 8px;
+  margin-bottom: 0.5rem;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.checklist label:hover {
+  background: rgba(255, 255, 255, 0.06);
+}
+.checklist input[type="checkbox"] {
+  width: 1.25em; height: 1.25em;
+  accent-color: var(--accent);
+}
+
+/* Bottom Nav (Glass) */
+.tab-content {
+  padding-bottom: 6rem;
+}
+
+.bottom-nav {
+  position: fixed;
+  bottom: 0; left: 0; width: 100%;
+  background: rgba(15, 23, 42, 0.85); /* Semi-transparent nav */
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-top: 1px solid var(--glass-border);
+  display: flex;
+  justify-content: space-around;
+  padding: 0.75rem 0 2rem 0;
+  z-index: 100;
+}
+
+.nav-item {
+  background: transparent;
+  border: none;
+  color: var(--muted);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.3rem;
+  cursor: pointer;
+  flex: 1;
+  transition: all 0.2s;
+}
+
+.nav-item span {
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+}
+
+.nav-item.active {
+  color: var(--accent);
+  transform: translateY(-2px);
+}
+.nav-item.active span {
+  font-weight: 600;
+}
+
+/* Weather */
+.weather-widget {
+  color: var(--muted);
+  font-weight: 500;
+  background: rgba(255,255,255,0.05);
+  padding: 0.25rem 0.75rem;
+  border-radius: 99px;
+  margin-top: 0.5rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* Light Mode Overrides (Optional, focusing on dark glass) */
+body.light {
+  background: #f1f5f9;
+  --text: #1e293b;
+  --glass-bg: rgba(255, 255, 255, 0.8);
+  --glass-border: rgba(0, 0, 0, 0.05);
+  --muted: #64748b;
+  /* Adjust gradients for light mode if needed */
+}
+
