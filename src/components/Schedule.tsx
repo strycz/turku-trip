@@ -78,13 +78,20 @@ export const Schedule = ({
     setNotes((prev) => ({ ...prev, [key]: val }));
   };
 
-  const handleResize = (dayIndex: number, itemIndex: number, e: React.MouseEvent<HTMLTextAreaElement>) => {
-    const target = e.target as HTMLTextAreaElement;
-    // We only care if the user actually resized it (browser sets inline style)
-    if (target.style.height) {
-        const key = `${dayIndex}-${itemIndex}`;
-        setNoteHeights((prev) => ({ ...prev, [key]: target.style.height }));
-    }
+  /* 
+     Fix 1: Use CSS.escape or just simpler strings for keys? Keys are "0-1", safe. 
+     Fix 2: Use offsetHeight because style.height is not always set by browser interaction immediately.
+  */
+  const handleResize = (dayIndex: number, itemIndex: number, e: React.SyntheticEvent<HTMLTextAreaElement>) => {
+    const target = e.currentTarget;
+    const key = `${dayIndex}-${itemIndex}`;
+    const newHeight = `${target.offsetHeight}px`;
+    
+    setNoteHeights((prev) => {
+      // Avoid spamming updates if height is same (pixel perfect)
+      if (prev[key] === newHeight) return prev;
+      return { ...prev, [key]: newHeight };
+    });
   };
 
   const currentDayIndex = now.getDay();
@@ -180,6 +187,7 @@ export const Schedule = ({
                         value={notes[noteKey] || ""}
                         onChange={(e) => handleNoteChange(dIndex, i, e.target.value)}
                         onMouseUp={(e) => handleResize(dIndex, i, e)}
+                        onTouchEnd={(e) => handleResize(dIndex, i, e)}
                         style={noteHeights[noteKey] ? { height: noteHeights[noteKey] } : undefined}
                       />
                     </div>
