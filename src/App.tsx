@@ -5,9 +5,21 @@ import { PackingList } from "./components/PackingList";
 import { Roles } from "./components/Roles";
 import { Budget } from "./components/Budget";
 import { Weather } from "./components/Weather";
+import { PhotoAlbum } from "./components/PhotoAlbum";
 import "./index.css";
+import { 
+  Calendar, 
+  Users, 
+  Wallet, 
+  Backpack, 
+  Sun, 
+  Moon, 
+  Eye, 
+  EyeOff,
+  Image
+} from "lucide-react";
 
-type Tab = "schedule" | "squad" | "budget" | "items";
+type Tab = "schedule" | "squad" | "budget" | "items" | "album";
 
 export default function App() {
   const [activeTab, setActiveTab] = useState<Tab>("schedule");
@@ -37,7 +49,8 @@ export default function App() {
                   onClick={() => setMinimalMode(m => !m)}
                   className={clsx("btn-control", minimalMode && "active")}
                 >
-                  {minimalMode ? "Focus" : "Focus"}
+                  {minimalMode ? <Eye size={18} /> : <EyeOff size={18} />}
+                  <span style={{ marginLeft: '0.5rem' }}>Focus</span>
                 </button>
                 <button 
                   onClick={() => setViewMode(v => v === "all" ? "today" : "all")}
@@ -48,7 +61,7 @@ export default function App() {
               </>
             )}
             <button onClick={toggleTheme} className="btn-control theme-toggle">
-              {theme === "dark" ? "☀️" : "🌙"}
+              {theme === "dark" ? <Sun size={20} /> : <Moon size={20} />}
             </button>
           </div>
         </header>
@@ -59,24 +72,31 @@ export default function App() {
           </section>
         )}
 
-        {activeTab === "squad" && (
+        {viewMode === "all" && activeTab === "squad" && (
           <section className="tab-pane">
-            <h2>👥 Ekipa</h2>
+            <h2><Users className="icon-inline" size={24} style={{ verticalAlign: 'middle', marginRight: '0.5rem' }} /> Ekipa</h2>
             <Roles />
           </section>
         )}
 
         {activeTab === "budget" && (
           <section className="tab-pane">
-            <h2>💰 Budżet</h2>
+            <h2><Wallet className="icon-inline" size={24} style={{ verticalAlign: 'middle', marginRight: '0.5rem' }} /> Budżet</h2>
             <Budget />
           </section>
         )}
 
         {activeTab === "items" && (
           <section className="tab-pane">
-            <h2>🎒 Lista</h2>
+            <h2><Backpack className="icon-inline" size={24} style={{ verticalAlign: 'middle', marginRight: '0.5rem' }} /> Lista</h2>
             <PackingList />
+          </section>
+        )}
+
+        {activeTab === "album" && (
+          <section className="tab-pane">
+            <h2><Image className="icon-inline" size={24} style={{ verticalAlign: 'middle', marginRight: '0.5rem' }} /> Album</h2>
+            <PhotoAlbum />
           </section>
         )}
       </main>
@@ -86,29 +106,36 @@ export default function App() {
           className={clsx("nav-item", activeTab === "schedule" && "active")}
           onClick={() => setActiveTab("schedule")}
         >
-          📅
+          <Calendar size={24} />
           <span>Plan</span>
         </button>
         <button 
           className={clsx("nav-item", activeTab === "squad" && "active")}
           onClick={() => setActiveTab("squad")}
         >
-          👥
+          <Users size={24} />
           <span>Ekipa</span>
         </button>
         <button 
           className={clsx("nav-item", activeTab === "budget" && "active")}
           onClick={() => setActiveTab("budget")}
         >
-          💰
+          <Wallet size={24} />
           <span>Kasa</span>
         </button>
         <button 
           className={clsx("nav-item", activeTab === "items" && "active")}
           onClick={() => setActiveTab("items")}
         >
-          🎒
+          <Backpack size={24} />
           <span>Lista</span>
+        </button>
+        <button 
+          className={clsx("nav-item", activeTab === "album" && "active")}
+          onClick={() => setActiveTab("album")}
+        >
+          <Image size={24} />
+          <span>Album</span>
         </button>
       </nav>
     </>

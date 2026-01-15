@@ -15,8 +15,8 @@ export default defineConfig({
         description: 'Plan wyjazdu do Turku 🇫🇮',
         theme_color: '#0f172a',
         background_color: '#0f172a',
-        start_url: '/turku-wypad/',
-        scope: '/turku-wypad/',
+        start_url: '/turku-trip/',
+        scope: '/turku-trip/',
         icons: [
           {
             src: 'pwa-192x192.png',
@@ -32,5 +32,5 @@ export default defineConfig({
       }
     })
   ],
-  base: "/turku-wypad/",
+  base: "/turku-trip/",
 })
